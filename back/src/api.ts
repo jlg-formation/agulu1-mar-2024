@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 
 const app = express.Router();
 
-module.exports = app;
+export default app;
 
 const articles = [
   {
