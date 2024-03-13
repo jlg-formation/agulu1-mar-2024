@@ -7,6 +7,7 @@ import {
   faRotateRight,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import { Article } from '../../../interfaces/article';
 
 @Component({
   selector: 'app-list',
@@ -20,7 +21,7 @@ export class ListComponent {
   faPlus = faPlus;
   faTrashAlt = faTrashAlt;
 
-  articles = [
+  articles: Article[] = [
     {
       id: 'a1',
       name: 'Tournevis',
