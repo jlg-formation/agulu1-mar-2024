@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './routes/home/home.component';
 import { LegalComponent } from './routes/legal/legal.component';
+import { ListComponent } from './stock/routes/list/list.component';
+import { AddComponent } from './stock/routes/add/add.component';
 
 export const routes: Routes = [
   {
@@ -10,5 +12,13 @@ export const routes: Routes = [
   {
     path: 'legal',
     component: LegalComponent,
+  },
+  {
+    path: 'stock',
+    component: ListComponent,
+  },
+  {
+    path: 'stock/add',
+    component: AddComponent,
   },
 ];
