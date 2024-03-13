@@ -1,24 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Article } from '../interfaces/article';
+import { HttpClient } from '@angular/common/http';
+
+const url = 'http://localhost:3000/api/articles';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticleService {
-  articles: Article[] = [
-    {
-      id: 'a1',
-      name: 'Tournevis',
-      price: 2.99,
-      qty: 234,
-    },
-    {
-      id: 'a2',
-      name: 'Marteau',
-      price: 6.5,
-      qty: 12,
-    },
-  ];
+  articles: Article[] | undefined = undefined;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  refresh() {
+    this.http.get(url);
+  }
 }
