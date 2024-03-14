@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './routes/home/home.component';
-import { LegalComponent } from './routes/legal/legal.component';
 import { ListComponent } from './stock/routes/list/list.component';
 import { AddComponent } from './stock/routes/add/add.component';
 import { NotfoundComponent } from './routes/notfound/notfound.component';
@@ -12,7 +11,10 @@ export const routes: Routes = [
   },
   {
     path: 'legal',
-    component: LegalComponent,
+    loadComponent: () =>
+      import('../app/routes/legal/legal.component').then(
+        (c) => c.LegalComponent
+      ),
   },
   {
     path: 'stock',
