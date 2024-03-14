@@ -25,6 +25,8 @@ export class ListComponent implements OnInit {
   faTrashAlt = faTrashAlt;
   isRefreshing = false;
 
+  selectedArticles = new Set<string>();
+
   constructor(public articleService: ArticleService) {}
 
   ngOnInit(): void {
@@ -45,5 +47,13 @@ export class ListComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  select(id: string) {
+    if (this.selectedArticles.has(id)) {
+      this.selectedArticles.delete(id);
+      return;
+    }
+    this.selectedArticles.add(id);
   }
 }
