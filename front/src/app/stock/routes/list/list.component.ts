@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -18,15 +18,20 @@ import { of, switchMap, tap } from 'rxjs';
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
+  faCircleNotch = faCircleNotch;
   faPlus = faPlus;
   faRotateRight = faRotateRight;
   faTrashAlt = faTrashAlt;
-  faCircleNotch = faCircleNotch;
-
   isRefreshing = false;
 
   constructor(public articleService: ArticleService) {}
+
+  ngOnInit(): void {
+    if (this.articleService.articles === undefined) {
+      this.articleService.refresh().subscribe();
+    }
+  }
 
   refresh() {
     of(undefined)
