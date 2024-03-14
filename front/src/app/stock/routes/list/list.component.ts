@@ -17,9 +17,13 @@ import { ArticleService } from '../../../services/article.service';
   styleUrl: './list.component.scss',
 })
 export class ListComponent {
-  faRotateRight = faRotateRight;
   faPlus = faPlus;
+  faRotateRight = faRotateRight;
   faTrashAlt = faTrashAlt;
 
   constructor(public articleService: ArticleService) {}
+
+  refresh() {
+    this.articleService.refresh().subscribe();
+  }
 }

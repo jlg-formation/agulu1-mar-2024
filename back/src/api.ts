@@ -19,6 +19,11 @@ const articles = [
   },
 ];
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 app.get("/articles", (req, res) => {
   res.json(articles);
 });
