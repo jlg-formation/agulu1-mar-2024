@@ -40,6 +40,10 @@ app.post("/articles", json(), (req, res) => {
 
 app.delete("/articles", json(), (req, res) => {
   const ids: string[] = req.body;
+  if (ids.length === 2) {
+    res.status(400).end();
+    return;
+  }
   articles = articles.filter((a) => !ids.includes(a.id));
   res.status(204).end();
 });

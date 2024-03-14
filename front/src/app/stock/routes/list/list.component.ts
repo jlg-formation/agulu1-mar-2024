@@ -9,7 +9,7 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { ArticleService } from '../../../services/article.service';
-import { delay, of, switchMap, tap } from 'rxjs';
+import { catchError, delay, finalize, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -26,6 +26,7 @@ export class ListComponent implements OnInit {
   isRefreshing = false;
   isRemoving = false;
   selectedArticles = new Set<string>();
+  errorMsg = '';
 
   constructor(public articleService: ArticleService) {}
 
@@ -34,7 +35,12 @@ export class ListComponent implements OnInit {
       of(undefined)
         .pipe(
           delay(300),
-          switchMap(() => this.articleService.refresh())
+          switchMap(() => this.articleService.refresh()),
+          catchError((err) => {
+            console.log('err: ', err);
+            this.errorMsg = 'oups... erreur.';
+            return of(undefined);
+          })
         )
         .subscribe();
     }
@@ -44,11 +50,17 @@ export class ListComponent implements OnInit {
     of(undefined)
       .pipe(
         tap(() => {
+          this.errorMsg = '';
           this.isRefreshing = true;
         }),
         delay(300),
         switchMap(() => this.articleService.refresh()),
-        tap(() => {
+        catchError((err) => {
+          console.log('err: ', err);
+          this.errorMsg = 'oups... erreur.';
+          return of(undefined);
+        }),
+        finalize(() => {
           this.isRefreshing = false;
         })
       )
@@ -66,6 +78,14 @@ export class ListComponent implements OnInit {
         switchMap(() => this.articleService.refresh()),
         tap(() => {
           this.selectedArticles.clear();
+          this.isRemoving = false;
+        }),
+        catchError((err) => {
+          console.log('err: ', err);
+          this.errorMsg = 'oups... erreur.';
+          return of(undefined);
+        }),
+        finalize(() => {
           this.isRemoving = false;
         })
       )

@@ -43,6 +43,7 @@ export class AddComponent {
       .pipe(
         tap(() => {
           this.isAdding = true;
+          this.errorMsg = '';
         }),
         delay(300),
         switchMap(() => this.articleService.add(newArticle)),

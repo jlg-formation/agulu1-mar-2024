@@ -23,7 +23,9 @@
         ></fa-icon>
       </button>
     </nav>
-    <div class="error"></div>
+    <div class="error">
+      {{ errorMsg }}
+    </div>
     <table>
       <thead>
         <tr>
@@ -42,7 +44,7 @@
           <td class="price">{{ a.price }} €</td>
           <td class="qty">{{ a.qty }}</td>
         </tr>
-        } @if (articleService.articles === undefined) {
+        } @if (articleService.articles === undefined && errorMsg === '') {
         <tr>
           <td colspan="3">
             <div class="loading">
