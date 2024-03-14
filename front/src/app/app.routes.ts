@@ -3,6 +3,7 @@ import { HomeComponent } from './routes/home/home.component';
 import { LegalComponent } from './routes/legal/legal.component';
 import { ListComponent } from './stock/routes/list/list.component';
 import { AddComponent } from './stock/routes/add/add.component';
+import { NotfoundComponent } from './routes/notfound/notfound.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/',
+    component: NotfoundComponent,
   },
 ];
