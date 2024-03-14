@@ -17,7 +17,7 @@ app.use("/api", api);
 app.use(express.static(publicDir));
 app.use(serveIndex(publicDir, { icons: true }));
 
-app.get(["/stock", "/stock/add", "/legal"], (req, res) => {
+app.get("/**", (req, res) => {
   res.sendFile("index.html", { root: publicDir });
 });
 

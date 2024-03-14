@@ -21,4 +21,8 @@ export const routes: Routes = [
     path: 'stock/add',
     component: AddComponent,
   },
+  {
+    path: '**',
+    redirectTo: '/',
+  },
 ];
