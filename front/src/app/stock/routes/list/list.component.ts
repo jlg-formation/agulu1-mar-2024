@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
+  faCircleNotch,
   faPlus,
   faRotateRight,
   faTrashAlt,
@@ -21,6 +22,7 @@ export class ListComponent {
   faPlus = faPlus;
   faRotateRight = faRotateRight;
   faTrashAlt = faTrashAlt;
+  faCircleNotch = faCircleNotch;
 
   isRefreshing = false;
 
