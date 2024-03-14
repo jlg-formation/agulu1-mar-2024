@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Article } from '../interfaces/article';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, of, switchMap, tap } from 'rxjs';
+import { Observable, delay, map, of, switchMap, tap } from 'rxjs';
 
 const url = 'http://localhost:3000/api/articles';
 
@@ -15,6 +15,7 @@ export class ArticleService {
 
   refresh(): Observable<void> {
     return of(undefined).pipe(
+      delay(2000),
       switchMap(() => this.http.get<Article[]>(url)),
       map((articles) => {
         this.articles = articles;

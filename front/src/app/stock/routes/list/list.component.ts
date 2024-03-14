@@ -8,6 +8,7 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { ArticleService } from '../../../services/article.service';
+import { of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -21,9 +22,21 @@ export class ListComponent {
   faRotateRight = faRotateRight;
   faTrashAlt = faTrashAlt;
 
+  isRefreshing = false;
+
   constructor(public articleService: ArticleService) {}
 
   refresh() {
-    this.articleService.refresh().subscribe();
+    of(undefined)
+      .pipe(
+        tap(() => {
+          this.isRefreshing = true;
+        }),
+        switchMap(() => this.articleService.refresh()),
+        tap(() => {
+          this.isRefreshing = false;
+        })
+      )
+      .subscribe();
   }
 }
