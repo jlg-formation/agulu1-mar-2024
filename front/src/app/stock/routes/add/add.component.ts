@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleNotch, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { delay, of, switchMap, tap } from 'rxjs';
+import { catchError, delay, finalize, of, switchMap, tap } from 'rxjs';
 import { ArticleService } from '../../../services/article.service';
 import { NewArticle } from '../../../interfaces/article';
 import { Router } from '@angular/router';
@@ -32,6 +32,7 @@ export class AddComponent {
   faCircleNotch = faCircleNotch;
   faPlus = faPlus;
   isAdding = false;
+  errorMsg = '';
 
   constructor(private articleService: ArticleService, private router: Router) {}
 
@@ -47,7 +48,12 @@ export class AddComponent {
         switchMap(() => this.articleService.add(newArticle)),
         switchMap(() => this.articleService.refresh()),
         switchMap(() => this.router.navigateByUrl('/stock')),
-        tap(() => {
+        catchError((err) => {
+          console.log('err: ', err);
+          this.errorMsg = 'oups! Erreur';
+          return of(undefined);
+        }),
+        finalize(() => {
           this.isAdding = false;
         })
       )
