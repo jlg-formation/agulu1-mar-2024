@@ -56,11 +56,9 @@ export class ListComponent implements OnInit {
           this.isRemoving = true;
         }),
         switchMap(() => this.articleService.remove(this.selectedArticles)),
-        tap(() => {
-          this.selectedArticles.clear();
-        }),
         switchMap(() => this.articleService.refresh()),
         tap(() => {
+          this.selectedArticles.clear();
           this.isRemoving = false;
         })
       )
