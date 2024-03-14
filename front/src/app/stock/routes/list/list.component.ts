@@ -9,7 +9,7 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { ArticleService } from '../../../services/article.service';
-import { of, switchMap, tap } from 'rxjs';
+import { delay, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -31,7 +31,12 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.articleService.articles === undefined) {
-      this.articleService.refresh().subscribe();
+      of(undefined)
+        .pipe(
+          delay(300),
+          switchMap(() => this.articleService.refresh())
+        )
+        .subscribe();
     }
   }
 
@@ -41,6 +46,7 @@ export class ListComponent implements OnInit {
         tap(() => {
           this.isRefreshing = true;
         }),
+        delay(300),
         switchMap(() => this.articleService.refresh()),
         tap(() => {
           this.isRefreshing = false;
@@ -55,6 +61,7 @@ export class ListComponent implements OnInit {
         tap(() => {
           this.isRemoving = true;
         }),
+        delay(300),
         switchMap(() => this.articleService.remove(this.selectedArticles)),
         switchMap(() => this.articleService.refresh()),
         tap(() => {

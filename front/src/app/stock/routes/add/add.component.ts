@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleNotch, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { of, switchMap, tap } from 'rxjs';
+import { delay, of, switchMap, tap } from 'rxjs';
 import { ArticleService } from '../../../services/article.service';
 import { NewArticle } from '../../../interfaces/article';
 import { Router } from '@angular/router';
@@ -43,6 +43,7 @@ export class AddComponent {
         tap(() => {
           this.isAdding = true;
         }),
+        delay(300),
         switchMap(() => this.articleService.add(newArticle)),
         switchMap(() => this.articleService.refresh()),
         switchMap(() => this.router.navigateByUrl('/stock')),

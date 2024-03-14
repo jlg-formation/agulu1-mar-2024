@@ -15,14 +15,12 @@ export class ArticleService {
 
   add(newArticle: NewArticle): Observable<void> {
     return of(undefined).pipe(
-      delay(1000),
       switchMap(() => this.http.post<void>(url, newArticle))
     );
   }
 
   refresh(): Observable<void> {
     return of(undefined).pipe(
-      delay(1000),
       switchMap(() => this.http.get<Article[]>(url)),
       map((articles) => {
         this.articles = articles;
@@ -33,7 +31,6 @@ export class ArticleService {
 
   remove(selectedArticles: Set<string>): Observable<void> {
     return of(undefined).pipe(
-      delay(1000),
       switchMap(() =>
         this.http.delete<void>(url, { body: [...selectedArticles] })
       )
