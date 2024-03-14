@@ -7,8 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { of, switchMap } from 'rxjs';
+import { faCircleNotch, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { of, switchMap, tap } from 'rxjs';
 import { ArticleService } from '../../../services/article.service';
 import { NewArticle } from '../../../interfaces/article';
 import { Router } from '@angular/router';
@@ -29,7 +29,9 @@ export class AddComponent {
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
     qty: new FormControl(1, [Validators.required, Validators.min(0)]),
   });
+  faCircleNotch = faCircleNotch;
   faPlus = faPlus;
+  isAdding = false;
 
   constructor(private articleService: ArticleService, private router: Router) {}
 
@@ -38,9 +40,15 @@ export class AddComponent {
     const newArticle: NewArticle = this.f.value as NewArticle;
     of(undefined)
       .pipe(
+        tap(() => {
+          this.isAdding = true;
+        }),
         switchMap(() => this.articleService.add(newArticle)),
         switchMap(() => this.articleService.refresh()),
-        switchMap(() => this.router.navigateByUrl('/stock'))
+        switchMap(() => this.router.navigateByUrl('/stock')),
+        tap(() => {
+          this.isAdding = false;
+        })
       )
       .subscribe();
   }
