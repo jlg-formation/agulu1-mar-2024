@@ -30,4 +30,13 @@ export class ArticleService {
       })
     );
   }
+
+  remove(selectedArticles: Set<string>): Observable<void> {
+    return of(undefined).pipe(
+      delay(1000),
+      switchMap(() =>
+        this.http.delete<void>(url, { body: [...selectedArticles] })
+      )
+    );
+  }
 }

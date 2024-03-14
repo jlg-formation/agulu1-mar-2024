@@ -24,7 +24,7 @@ export class ListComponent implements OnInit {
   faRotateRight = faRotateRight;
   faTrashAlt = faTrashAlt;
   isRefreshing = false;
-
+  isRemoving = false;
   selectedArticles = new Set<string>();
 
   constructor(public articleService: ArticleService) {}
@@ -44,6 +44,24 @@ export class ListComponent implements OnInit {
         switchMap(() => this.articleService.refresh()),
         tap(() => {
           this.isRefreshing = false;
+        })
+      )
+      .subscribe();
+  }
+
+  remove() {
+    of(undefined)
+      .pipe(
+        tap(() => {
+          this.isRemoving = true;
+        }),
+        switchMap(() => this.articleService.remove(this.selectedArticles)),
+        tap(() => {
+          this.selectedArticles.clear();
+        }),
+        switchMap(() => this.articleService.refresh()),
+        tap(() => {
+          this.isRemoving = false;
         })
       )
       .subscribe();

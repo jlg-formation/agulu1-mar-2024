@@ -5,7 +5,7 @@ const app = express.Router();
 
 export default app;
 
-const articles = [
+let articles = [
   {
     id: "a1",
     name: "Tournevis",
@@ -23,6 +23,7 @@ const articles = [
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader("Access-Control-Allow-Methods", "*");
   next();
 });
 
@@ -35,4 +36,10 @@ app.post("/articles", json(), (req, res) => {
   const article = { ...newArticle, id: randomUUID() };
   articles.push(article);
   res.status(201).end();
+});
+
+app.delete("/articles", json(), (req, res) => {
+  const ids: string[] = req.body;
+  articles = articles.filter((a) => !ids.includes(a.id));
+  res.status(204).end();
 });
